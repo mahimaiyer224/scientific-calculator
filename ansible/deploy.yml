@@ -1,0 +1,17 @@
+---
+- name: Deploy Scientific Calculator
+  hosts: localhost
+  tasks:
+    - name: Pull the Docker image from Docker Hub
+      docker_image:
+        name: mahimaiyer/scientific-calculator
+        tag: latest
+        pull: yes
+
+    - name: Run the Docker container
+      docker_container:
+        name: scientific_calculator
+        image: mahimaiyer/scientific-calculator:latest
+        state: started
+        restart_policy: always
+        detach: yes
