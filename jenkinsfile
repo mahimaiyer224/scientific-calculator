@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Docker Build') {
             steps {
-                sh 'docker build -t mahimaiyer/scientific-calculator .'
+                sh 'sudo docker build -t mahimaiyer/scientific-calculator .'
             }
         }
         stage('Docker Run') {
