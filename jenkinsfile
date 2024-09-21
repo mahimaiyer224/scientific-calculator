@@ -1,0 +1,26 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git url: 'https://github.com/mahimaiyer224/scientific-calculator.git', branch: 'master'
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+        stage('Docker Build') {
+            steps {
+                sh 'docker build -t mahimaiyer/scientific-calculator .'
+            }
+        }
+        stage('Docker Run') {
+            steps {
+                sh 'docker run -d --name scientific_calculator mahimaiyer/scientific-calculator'
+            }
+        }
+    }
+}
