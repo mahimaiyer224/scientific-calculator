@@ -1,17 +1,26 @@
----
+--
 - name: Deploy Scientific Calculator
   hosts: localhost
   tasks:
-    - name: Pull the Docker image from Docker Hub
-      community.docker.docker_image:  # Specify the collection
-        name: mahimaiyer/scientific-calculator
-        tag: latest
-        pull: yes # Use state instead of pull
-
-    - name: Run the Docker container
-      community.docker.docker_container:  # Specify the collection
-        name: scientific_calculator
-        image: mahimaiyer/scientific-calculator:latest
+    - name: Ensure Docker service is started
+      service:
+        name: docker
         state: started
-        restart_policy: always
-        detach: yes
+
+    - name: Pull Docker Image from Docker Hub
+      docker_image:
+        name: "mahimaiyer/scientific-calculator"
+        source: pull
+      register: docker_pull_result
+
+    - name: Display Docker Pull Result
+      debug:
+        var: docker_pull_result
+
+    - name: Run Docker container
+      docker_container:
+        name: scientific_calculator
+        image: mahimaiyer/scientific-calculator
+
+
+
