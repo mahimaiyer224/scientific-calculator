@@ -15,6 +15,11 @@ pipeline {
                 git url: "${GITHUB_REPO_URL}", branch: 'master'
             }
         }
+stage('List Files') {
+    steps {
+        sh 'ls -R'
+    }
+}
         stage('Build') {
             steps {
                 sh 'mvn clean package'
@@ -36,7 +41,7 @@ pipeline {
         }
         stage('Run Ansible Playbook') {
     steps {
-        sshagent(['ansible-ssh-key']) { // Use your credentials ID here
+        sshagent(['ansible-ssh-credentials']) { 
             sh """
                 ansible-playbook ansible/deploy.yml -i ansible/inventory
             """
