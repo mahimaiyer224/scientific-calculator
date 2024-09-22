@@ -1,25 +1,49 @@
 pipeline {
     agent any
 
+    environment {
+        DOCKER_IMAGE_NAME = 'scientific-calculator'
+        GITHUB_REPO_URL = 'https://github.com/mahimaiyer224/scientific-calulator.git'
+    }
+
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/mahimaiyer224/scientific-calculator.git', branch: 'master'
+                script {
+                    // Checkout the code from the GitHub repository
+                    git branch: 'main', url: "${GITHUB_REPO_URL}"
+                }
             }
         }
-        stage('Build') {
+
+        stage('Build Docker Image') {
             steps {
-                sh 'mvn clean package'
+                script {
+                    // Build Docker image
+                    docker.build("${DOCKER_IMAGE_NAME}", '.')
+                }
             }
         }
-        stage('Docker Build') {
+
+        stage('Push Docker Image') {
             steps {
-                sh 'sudo docker build -t mahimaiyer/scientific-calculator .'
+                script {
+                    docker.withRegistry('', 'DockerHubCred') {
+                        sh 'docker tag ${DOCKER_IMAGE_NAME} mahimaiyer/${DOCKER_IMAGE_NAME}:latest'
+                        sh 'docker push mahimaiyer/${DOCKER_IMAGE_NAME}'
+                    }
+                }
             }
         }
-        stage('Docker Run') {
+
+        stage('Run Ansible Playbook') {
             steps {
-                sh 'docker run -d --name scientific_calculator mahimaiyer/scientific-calculator'
+                script {
+                    ansiblePlaybook(
+                        playbook: 'deploy.yml',
+                        inventory: 'inventory'
+                    )
+                }
             }
         }
     }
