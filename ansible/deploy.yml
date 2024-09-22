@@ -5,7 +5,7 @@
       community.docker.docker_image:  # Specify the collection
         name: mahimaiyer/scientific-calculator
         tag: latest
-        state: present  # Use state instead of pull
+        pull: yes # Use state instead of pull
 
     - name: Run the Docker container
       community.docker.docker_container:  # Specify the collection
