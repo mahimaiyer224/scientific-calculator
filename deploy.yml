@@ -1,4 +1,4 @@
---
+---
 - name: Deploy Scientific Calculator
   hosts: localhost
   tasks:
@@ -21,6 +21,3 @@
       docker_container:
         name: scientific_calculator
         image: mahimaiyer/scientific-calculator
-
-
-
