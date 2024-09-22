@@ -22,6 +22,12 @@ pipeline {
                 sh 'docker run -d --name scientific_calculator mahimaiyer/scientific-calculator'
             }
         }
+        stage('Interactive Exec') {
+            steps {
+                sh 'docker exec -it scientific_calculator /bin/bash'
+    }
+}
+
     }
 }
 
