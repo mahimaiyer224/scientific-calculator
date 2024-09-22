@@ -1,10 +1,18 @@
 pipeline {
     agent any
 
+    environment {
+        DOCKER_IMAGE_NAME = 'mahimaiyer/scientific-calculator'
+        GITHUB_REPO_URL = 'https://github.com/mahimaiyer224/scientific-calculator.git'
+        DOCKER_CREDENTIALS_ID = 'jenkins-docker' // Replace with your actual Docker Hub credentials ID
+        ANSIBLE_PLAYBOOK = 'deploy.yml' // Your Ansible playbook file
+        INVENTORY_FILE = 'inventory' // Your Ansible inventory file
+    }
+
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/mahimaiyer224/scientific-calculator.git', branch: 'master'
+                git url: "${GITHUB_REPO_URL}", branch: 'master'
             }
         }
         stage('Build') {
@@ -14,15 +22,32 @@ pipeline {
         }
         stage('Docker Build') {
             steps {
-                sh 'docker build -t mahimaiyer/scientific-calculator .'
+                sh "docker build -t ${DOCKER_IMAGE_NAME} ."
+            }
+        }
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    docker.withRegistry('', "${DOCKER_CREDENTIALS_ID}") {
+                        sh "docker push ${DOCKER_IMAGE_NAME}"
+                    }
+                }
+            }
+        }
+        stage('Run Ansible Playbook') {
+            steps {
+                script {
+                    ansiblePlaybook(
+                        playbook: "${ANSIBLE_PLAYBOOK}",
+                        inventory: "${INVENTORY_FILE}"
+                    )
+                }
             }
         }
         stage('Docker Run') {
             steps {
-                sh 'docker run -d --name scientific_calculator mahimaiyer/scientific-calculator'
+                sh "docker run -d --name scientific_calculator ${DOCKER_IMAGE_NAME}"
             }
         }
-
     }
 }
-
