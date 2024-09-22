@@ -15,11 +15,11 @@ pipeline {
                 git url: "${GITHUB_REPO_URL}", branch: 'master'
             }
         }
-stage('List Files') {
-    steps {
-        sh 'ls -R'
-    }
-}
+        stage('List Files') {
+            steps {
+                sh 'ls -R'
+            }
+        }
         stage('Build') {
             steps {
                 sh 'mvn clean package'
@@ -40,15 +40,13 @@ stage('List Files') {
             }
         }
         stage('Run Ansible Playbook') {
-    steps {
-        sshagent(['ansible-ssh-credentials']) { 
-            sh """
-                ansible-playbook ansible/deploy.yml -i ansible/inventory
-            """
-        }
-    }
-}
-
+            steps {
+                sshagent(['ansible-ssh-credentials']) { 
+                    sh """
+                        ansible-playbook ${ANSIBLE_PLAYBOOK} -i ${INVENTORY_FILE}
+                    """
+                }
+            }
         }
         stage('Docker Run') {
             steps {
