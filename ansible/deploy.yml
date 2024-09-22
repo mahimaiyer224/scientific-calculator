@@ -1,15 +1,14 @@
----
 - name: Deploy Scientific Calculator
   hosts: localhost
   tasks:
     - name: Pull the Docker image from Docker Hub
-      docker_image:
+      community.docker.docker_image:  # Specify the collection
         name: mahimaiyer/scientific-calculator
         tag: latest
-        pull: yes
+        state: present  # Use state instead of pull
 
     - name: Run the Docker container
-      docker_container:
+      community.docker.docker_container:  # Specify the collection
         name: scientific_calculator
         image: mahimaiyer/scientific-calculator:latest
         state: started
