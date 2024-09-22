@@ -5,8 +5,8 @@ pipeline {
         DOCKER_IMAGE_NAME = 'mahimaiyer/scientific-calculator'
         GITHUB_REPO_URL = 'https://github.com/mahimaiyer224/scientific-calculator.git'
         DOCKER_CREDENTIALS_ID = 'jenkins-docker' // Replace with your actual Docker Hub credentials ID
-        ANSIBLE_PLAYBOOK = 'ansible/deploy.yml' // Your Ansible playbook file
-        INVENTORY_FILE = 'ansible/inventory' // Your Ansible inventory file
+        ANSIBLE_PLAYBOOK = 'deploy.yml' // Your Ansible playbook file
+        INVENTORY_FILE = 'inventory' // Your Ansible inventory file
     }
 
     stages {
