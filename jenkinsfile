@@ -43,7 +43,7 @@ pipeline {
             steps {
                 sshagent(['ansible-ssh-credentials']) { 
                     sh """
-                        ansible-playbook ${ANSIBLE_PLAYBOOK} -i ${INVENTORY_FILE}
+                        ansible-playbook ${ANSIBLE_PLAYBOOK} -i ${INVENTORY_FILE} -vvv
                     """
                 }
             }
