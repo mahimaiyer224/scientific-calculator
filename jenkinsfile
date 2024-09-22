@@ -39,7 +39,8 @@ pipeline {
                 script {
                     ansiblePlaybook(
                         playbook: "${ANSIBLE_PLAYBOOK}",
-                        inventory: "${INVENTORY_FILE}"
+                        inventory: "${INVENTORY_FILE}",
+                        credentialsID: "${DOCKER_CREDENTIALS_ID}"
                     )
                 }
             }
