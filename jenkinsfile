@@ -35,15 +35,15 @@ pipeline {
             }
         }
         stage('Run Ansible Playbook') {
-            steps {
-                script {
-                    ansiblePlaybook(
-                        playbook: "${ANSIBLE_PLAYBOOK}",
-                        inventory: "${INVENTORY_FILE}",
-                        credentialsID: ansible-ssh-credentials
-                    )
-                }
-            }
+    steps {
+        sshagent(['ansible-ssh-key']) { // Use your credentials ID here
+            sh """
+                ansible-playbook ansible/deploy.yml -i ansible/inventory
+            """
+        }
+    }
+}
+
         }
         stage('Docker Run') {
             steps {
