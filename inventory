@@ -1,2 +1,2 @@
 [localhost]
-localhost ansible_user=mahima ansible_ssh_pass=Ubuntu
+localhost ansible_connection=local
