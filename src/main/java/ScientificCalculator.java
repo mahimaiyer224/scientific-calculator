@@ -2,69 +2,80 @@ import java.util.Scanner;
 
 public class ScientificCalculator {
 
-    public static double squareRoot(double x) {
-        return Math.sqrt(x);
-    }
-
-    public static long factorial(int x) {
-        if (x < 0) throw new IllegalArgumentException("Factorial is not defined for negative numbers");
-        long res = 1;
-        for (int i = 1; i <= x; i++) {
-            res *= i;
-        }
-        return res;
-    }
-
-    public static double naturalLog(double x) {
-        if (x <= 0) throw new IllegalArgumentException("Natural Logarithm is not defined for non-positive numbers");
-        return Math.log(x);
-    }
-
-    public static double power(double b, double e) {
-        return Math.pow(b, e);
-    }
-
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Scientific Calculator");
-        System.out.println("1. Square Root of a number");
-        System.out.println("2. Factorial of a number");
-        System.out.println("3. Natural log of a number");
-        System.out.println("4. Power");
-        System.out.println("Select your choice from 1 to 4");
+        Scanner scanner = new Scanner(System.in);
+        String operation;
 
-        double result = 0;
-        int choice = sc.nextInt();
+        System.out.println("Welcome to the Simple Scientific Calculator!");
+        System.out.println("Choose an operation:");
+        System.out.println("1. Square Root (sqrt)");
+        System.out.println("2. Factorial (factorial)");
+        System.out.println("3. Natural Logarithm (log)");
+        System.out.println("4. Power (power)");
+        System.out.println("Type 'exit' to quit.");
 
-        switch (choice) {
-            case 1:
-                System.out.println("Enter your number:");
-                double num1 = sc.nextDouble();
-                result = squareRoot(num1);
+        while (true) {
+            System.out.print("Enter operation: ");
+            operation = scanner.nextLine().trim();
+
+            if (operation.equalsIgnoreCase("exit")) {
+                System.out.println("Goodbye!");
                 break;
-            case 2:
-                System.out.println("Enter your number:");
-                int num2 = sc.nextInt();
-                result = factorial(num2);
-                break;
-            case 3:
-                System.out.println("Enter your number:");
-                double num3 = sc.nextDouble();
-                result = naturalLog(num3);
-                break;
-            case 4:
-                System.out.println("Enter the base:");
-                double base = sc.nextDouble();
-                System.out.println("Enter the exponent:");
-                double exponent = sc.nextDouble();
-                result = power(base, exponent);
-                break;
-            default:
-                System.out.println("Invalid operation");
-                return;
+            }
+
+            switch (operation) {
+                case "1":
+                    System.out.print("Enter a non-negative number: ");
+                    double number = scanner.nextDouble();
+                    if (number >= 0) {
+                        System.out.println("Square Root: " + Math.sqrt(number));
+                    } else {
+                        System.out.println("Error: Cannot compute square root of a negative number.");
+                    }
+                    break;
+
+                case "2":
+                    System.out.print("Enter a non-negative integer: ");
+                    int n = scanner.nextInt();
+                    if (n < 0) {
+                        System.out.println("Error: Factorial is not defined for negative numbers.");
+                    } else {
+                        System.out.println("Factorial: " + factorial(n));
+                    }
+                    break;
+
+                case "3":
+                    System.out.print("Enter a positive number: ");
+                    double logNumber = scanner.nextDouble();
+                    if (logNumber > 0) {
+                        System.out.println("Natural Logarithm: " + Math.log(logNumber));
+                    } else {
+                        System.out.println("Error: Logarithm is not defined for non-positive numbers.");
+                    }
+                    break;
+
+                case "4":
+                    System.out.print("Enter base: ");
+                    double base = scanner.nextDouble();
+                    System.out.print("Enter exponent: ");
+                    double exponent = scanner.nextDouble();
+                    System.out.println("Power: " + Math.pow(base, exponent));
+                    break;
+
+                default:
+                    System.out.println("Invalid operation. Please try again.");
+            }
+            scanner.nextLine(); // Clear the buffer
         }
 
-        System.out.println("Result: " + result);
-        sc.close();
+        scanner.close();
+    }
+
+    private static long factorial(int n) {
+        long result = 1;
+        for (int i = 2; i <= n; i++) {
+            result *= i;
+        }
+        return result;
     }
 }
