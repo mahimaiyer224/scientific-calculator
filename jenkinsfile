@@ -12,19 +12,21 @@ pipeline {
                 sh 'mvn clean package'
             }
         }
-        stage('Run Tests') {
-            steps {
-                sh 'mvn test'
-            }
-        }
         stage('Docker Build') {
             steps {
                 sh 'docker build -t mahimaiyer/scientific-calculator .'
             }
         }
-        stage('Docker Run') {
+        stage('Run Container') {
             steps {
-                sh 'docker run -it --name scientific_calculator --tty mahimaiyer/scientific-calculator'
+                // Run in detached mode
+                sh 'docker run -d --name scientific_calculator mahimaiyer/scientific-calculator'
+            }
+        }
+        stage('Exec into Container') {
+            steps {
+                // Optionally exec into the container for interaction (for debugging or manual testing)
+                sh 'docker exec -it scientific_calculator /bin/bash'
             }
         }
     }
