@@ -24,7 +24,7 @@ pipeline {
         }
         stage('Docker Run') {
             steps {
-                sh 'docker run -it -d --name scientific_calculator mahimaiyer/scientific-calculator'
+                sh 'docker run -it --name scientific_calculator mahimaiyer/scientific-calculator'
             }
         }
     }
