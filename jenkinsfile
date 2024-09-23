@@ -15,11 +15,7 @@ pipeline {
                 git url: "${GITHUB_REPO_URL}", branch: 'master'
             }
         }
-        stage('List Files') {
-            steps {
-                sh 'ls -R'
-            }
-        }
+        
         stage('Build') {
             steps {
                 sh 'mvn clean package'
@@ -43,15 +39,11 @@ pipeline {
             steps {
                 sshagent(['ansible-ssh-credentials']) { 
                     sh """
-                        ansible-playbook ${ANSIBLE_PLAYBOOK} -i ${INVENTORY_FILE} -vvv
+                        ansible-playbook ${ANSIBLE_PLAYBOOK} -i ${INVENTORY_FILE}
                     """
                 }
             }
         }
-        stage('Docker Run') {
-            steps {
-                sh "docker run -d --name scientific_calculator ${DOCKER_IMAGE_NAME}"
-            }
-        }
+        
     }
 }
