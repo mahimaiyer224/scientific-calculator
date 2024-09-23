@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class ScientificCalculator {
+public class sc {
 
     public static double squareRoot(double x) {
         return Math.sqrt(x);
