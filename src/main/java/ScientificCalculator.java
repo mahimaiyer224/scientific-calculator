@@ -27,30 +27,30 @@ public class ScientificCalculator {
                 case "1":
                     System.out.print("Enter a non-negative number: ");
                     double number = scanner.nextDouble();
-                    if (number >= 0) {
-                        System.out.println("Square Root: " + Math.sqrt(number));
-                    } else {
-                        System.out.println("Error: Cannot compute square root of a negative number.");
+                    try {
+                        System.out.println("Square Root: " + sqrt(number));
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Error: " + e.getMessage());
                     }
                     break;
 
                 case "2":
                     System.out.print("Enter a non-negative integer: ");
                     int n = scanner.nextInt();
-                    if (n < 0) {
-                        System.out.println("Error: Factorial is not defined for negative numbers.");
-                    } else {
+                    try {
                         System.out.println("Factorial: " + factorial(n));
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Error: " + e.getMessage());
                     }
                     break;
 
                 case "3":
                     System.out.print("Enter a positive number: ");
                     double logNumber = scanner.nextDouble();
-                    if (logNumber > 0) {
-                        System.out.println("Natural Logarithm: " + Math.log(logNumber));
-                    } else {
-                        System.out.println("Error: Logarithm is not defined for non-positive numbers.");
+                    try {
+                        System.out.println("Natural Logarithm: " + log(logNumber));
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Error: " + e.getMessage());
                     }
                     break;
 
@@ -59,7 +59,7 @@ public class ScientificCalculator {
                     double base = scanner.nextDouble();
                     System.out.print("Enter exponent: ");
                     double exponent = scanner.nextDouble();
-                    System.out.println("Power: " + Math.pow(base, exponent));
+                    System.out.println("Power: " + power(base, exponent));
                     break;
 
                 default:
@@ -67,16 +67,30 @@ public class ScientificCalculator {
             }
             scanner.nextLine(); // Clear the buffer
         }
-    
+
         scanner.close();
-        
     }
 
-    private static long factorial(int n) {
+    public static double sqrt(double number) {
+        if (number < 0) throw new IllegalArgumentException("Cannot compute square root of a negative number.");
+        return Math.sqrt(number);
+    }
+
+    public static long factorial(int n) {
+        if (n < 0) throw new IllegalArgumentException("Factorial is not defined for negative numbers.");
         long result = 1;
         for (int i = 2; i <= n; i++) {
             result *= i;
         }
         return result;
+    }
+
+    public static double log(double number) {
+        if (number <= 0) throw new IllegalArgumentException("Logarithm is not defined for non-positive numbers.");
+        return Math.log(number);
+    }
+
+    public static double power(double base, double exponent) {
+        return Math.pow(base, exponent);
     }
 }
