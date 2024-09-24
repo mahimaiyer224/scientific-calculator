@@ -69,7 +69,7 @@ public class ScientificCalculator {
         }
     
         scanner.close();
-        //Testing webhook
+        
     }
 
     private static long factorial(int n) {
