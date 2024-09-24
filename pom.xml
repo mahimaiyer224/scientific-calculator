@@ -41,7 +41,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>ScientificCalculator</mainClass> <!-- No package -->
+                            <mainClass>ScientificCalculator</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
